@@ -1,0 +1,19 @@
+<mjml>
+  <mj-body>
+    <mj-container>
+      <mj-section>
+        <mj-column>
+          <mj-image width="150" src="http://res.cloudinary.com/dx1phrswd/image/upload/v1477673426/logo_buireo.png"></mj-image>
+          <mj-text align="center" color="#555">You received a new form submission.</mj-text>
+          <mj-divider border-color="#3C55FF"></mj-divider>
+          <mj-table>
+            <tr>
+              <td style="font-weight: bold;">1995</td>
+              <td style="padding: 0 15px;">JavaScript</td>
+            </tr>
+          </mj-table>
+        </mj-column>
+      </mj-section>
+    </mj-container>
+  </mj-body>
+</mjml>
