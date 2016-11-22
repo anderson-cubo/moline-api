@@ -10,20 +10,29 @@ const koa = require('koa')
 const body = require('koa-body')
 const route = require('koa-route')
 const session = require('koa-session')
-
 co(function * () {
   let app = koa()
 
   let envFile = path.join(__dirname, '.env')
   let port = process.env.PORT || 9700
   let db = monk(process.env.MONGODB || process.env.MONGODB_URI || 'localhost/moline')
+
   // Load .env file
   if (fs.existsSync(envFile)) {
     env(envFile)
   }
 
   let routes = require('./routes')
+  let events = require('./events')
   // let Mail = require('./helpers/mail')()
+
+  // This must come after last app.use()
+  let server = require('http').Server(app.callback())
+  let io = require('socket.io')(server)
+
+  io.on('connection', function (socket) {
+    events(socket)
+  })
 
   // load body parse
   app.use(body({formidable: { uploadDir: __dirname }}))
@@ -36,7 +45,8 @@ co(function * () {
 
     this.state.Models = {
       User: db.get('users'),
-      Room: db.get('rooms')
+      Room: db.get('rooms'),
+      Chat: db.get('chats')
     }
 
     this.ErrorException = function (message, status) {
@@ -73,7 +83,7 @@ co(function * () {
       app.use(route[key].apply(null, arguments))
     }
   }))
-  app.listen(port, process.env.HOST || '0.0.0.0')
+  server.listen(port, process.env.HOST || '0.0.0.0')
   console.log('Listening at port:', port)
 })
 
