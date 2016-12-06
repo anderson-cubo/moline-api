@@ -46,7 +46,11 @@ co(function * () {
     this.state.Models = {
       User: db.get('users'),
       Room: db.get('rooms'),
-      Chat: db.get('chats')
+      Chat: db.get('chats'),
+      Joined: db.get('joined')
+    }
+    this.state.id = function (id) {
+      return monk.id(id)
     }
 
     this.ErrorException = function (message, status) {
@@ -59,7 +63,7 @@ co(function * () {
     this.set('Access-Control-Allow-Methods', 'POST, GET, OPTIONS, PUT, DELETE')
     this.set('Access-Control-Allow-Credentials', 'true')
     this.set('Allow', 'POST, GET, OPTIONS, PUT, DELETE')
-    this.set('Server', 'Marvin Forms API')
+    this.set('Server', 'Moline API')
 
     if (this.method === 'OPTIONS') {
       this.body = ''

@@ -1,7 +1,7 @@
 const Auth = require('../auth')
 const User = {
-  getOrFail: function * (next) {
-    var user = yield Auth.$get()
+  getOrFail: function * (what, next) {
+    var user = yield Auth.$get.apply(this, [])
     if (user) {
       this.state.user = user
       yield next
