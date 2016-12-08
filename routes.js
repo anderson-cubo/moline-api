@@ -1,6 +1,7 @@
 const Auth = require('./libs/auth')
 const User = require('./libs/user')
 const Crud = require('./helpers/crud')
+const Upload = require('./helpers/upload')
 const RoomCrud = Crud('Room')
 const ChatCrud = Crud('Chat')
 const JoinedCrud = Crud('Joined')
@@ -35,4 +36,6 @@ module.exports = function (router) {
   router.get('/joined/:id', JoinedCrud.get)
   router.post('/joined', JoinedCrud.create)
   router.delete('/joined/:id', JoinedCrud.remove)
+
+  router.post('/upload', Upload)
 }

@@ -10,6 +10,9 @@ const koa = require('koa')
 const body = require('koa-body')
 const route = require('koa-route')
 const session = require('koa-session')
+const mount = require('koa-mount')
+const serve = require('koa-static')
+
 co(function * () {
   let app = koa()
 
@@ -35,7 +38,13 @@ co(function * () {
   })
 
   // load body parse
-  app.use(body({formidable: { uploadDir: __dirname }}))
+  app.use(body({
+    multipart: true,
+    formidable: {
+      uploadDir: __dirname + '/tmp',
+      keepExtensions: true
+    }
+  }))
   app.keys = ['SMSCRT871Ah711g1BAA8hJ782625']
   app.use(session(app))
   app.use(function * (next) {
@@ -82,11 +91,16 @@ co(function * () {
       }
     }
   })
+
+  app.use(serve(__dirname + '/tmp'))
+
   routes(_.mapValues(route, function (act, key) {
     return function () {
       app.use(route[key].apply(null, arguments))
     }
   }))
+
+
   server.listen(port, process.env.HOST || '0.0.0.0')
   console.log('Listening at port:', port)
 })
