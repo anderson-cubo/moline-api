@@ -14,7 +14,7 @@ module.exports = function (router) {
   router.get('/user', Auth.get)
   router.post('/user/register', Auth.register)
   router.post('/user/login', Auth.login)
-  router.put('/user', Auth.update)
+  router.put('/user/:which', Auth.update)
   router.all('/user/logged', Auth.logged)
 
   // after that has to be logged

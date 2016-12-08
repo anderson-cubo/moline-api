@@ -92,7 +92,7 @@ co(function * () {
     }
   })
 
-  app.use(serve(__dirname + '/tmp'))
+  app.use(mount('/public/uploads', serve(__dirname + '/tmp')))
 
   routes(_.mapValues(route, function (act, key) {
     return function () {
